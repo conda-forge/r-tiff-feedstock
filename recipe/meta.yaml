@@ -32,9 +32,13 @@ requirements:
     - {{posix}}zip               # [win]
   host:
     - r-base
+    - libtiff
+    - jpeg
   run:
     - r-base
     - {{native}}gcc-libs         # [win]
+    - libtiff
+    - jpeg
 
 test:
   commands:

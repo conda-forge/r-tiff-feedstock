@@ -1,5 +1,4 @@
-{% set version = "0.1-6" %}
-
+{% set version = "0.1-7" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,47 +7,52 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: tiff_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/tiff_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/tiff/tiff_{{ version }}.tar.gz
-  sha256: 623bd9c16a426df7e6056738c5d91da86ea9b49df375eea6b5127e4e458dc4fb
+    - {{ cran_mirror }}/src/contrib/tiff_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/tiff/tiff_{{ version }}.tar.gz
+  sha256: b0e39e5129c89930820e1ba101fc4890131930d2e38dd239832d64074e373680
 
 build:
-  merge_build_host: true  # [win]
+  merge_build_host: True  # [win]
   number: 0
   rpaths:
     - lib/R/lib/
     - lib/
+
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{ posix }}filesystem        # [win]
+    - {{ posix }}sed               # [win]
+    - {{ posix }}grep              # [win]
+    - {{ posix }}autoconf
+    - {{ posix }}automake          # [not win]
+    - {{ posix }}automake-wrapper  # [win]
+    - {{ posix }}pkg-config
+    - {{ posix }}make
+    - {{ posix }}coreutils         # [win]
+    - {{ posix }}zip               # [win]
   host:
     - r-base
-
   run:
     - r-base
+    - {{ native }}gcc-libs         # [win]
 
 test:
   commands:
-    - $R -e "library('tiff')"  # [not win]
+    - $R -e "library('tiff')"           # [not win]
     - "\"%R%\" -e \"library('tiff')\""  # [win]
 
 about:
   home: http://www.rforge.net/tiff/
-  license: GPL-2.0-only OR GPL-3.0-only
+  license: GPL-2.0-or-later
   summary: This package provides an easy and simple way to read, write and display bitmap images stored in the TIFF format. It can read and write both files and in-memory raw vectors.
   license_family: GPL3
-
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
+
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - dpryan79
-    - johanneskoester
-    - bgruening
-    - daler

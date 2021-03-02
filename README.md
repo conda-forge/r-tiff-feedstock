@@ -3,7 +3,7 @@ About r-tiff
 
 Home: http://www.rforge.net/tiff/
 
-Package license: GPL-2.0-only OR GPL-3.0-only
+Package license: GPL-2.0-or-later
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-tiff-feedstock/blob/master/LICENSE.txt)
 
@@ -168,9 +168,5 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
-* [@bgruening](https://github.com/bgruening/)
 * [@conda-forge/r](https://github.com/conda-forge/r/)
-* [@daler](https://github.com/daler/)
-* [@dpryan79](https://github.com/dpryan79/)
-* [@johanneskoester](https://github.com/johanneskoester/)
 

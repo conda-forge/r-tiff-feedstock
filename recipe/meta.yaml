@@ -1,6 +1,5 @@
 {% set version = "0.1-12" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-tiff
@@ -11,34 +10,37 @@ source:
     - {{ cran_mirror }}/src/contrib/tiff_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/tiff/tiff_{{ version }}.tar.gz
   sha256: df10ce719f92597572763182f7cb03686b8d7fb9123d036a4daf5b10738e815c
+  patches:
+    - patches/0001-minimal-ucrt-libs.patch
 
 build:
-  merge_build_host: true  # [win]
-  number: 0
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
     - {{ compiler('c') }}          # [not win]
+    - {{ stdlib("c") }}            # [not win]
     - {{ compiler('m2w64_c') }}    # [win]
+    - {{ stdlib("m2w64_c") }}      # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}sed               # [win]
     - {{ posix }}grep              # [win]
     - {{ posix }}autoconf
     - {{ posix }}automake          # [not win]
     - {{ posix }}automake-wrapper  # [win]
-    - {{ posix }}pkg-config
+    - pkg-config
     - {{ posix }}make
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
   host:
     - r-base
-    - libtiff                      # [not win]
+    - libtiff
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
 
 test:
   commands:

@@ -1,0 +1,27 @@
+From 02de50cff435b57179d1b4c418580d324018367a Mon Sep 17 00:00:00 2001
+From: Mervin Fansler <mmfansler@gmail.com>
+Date: Sat, 3 Aug 2024 19:39:10 +0200
+Subject: [PATCH] Update Makevars.ucrt
+
+---
+ src/Makevars.ucrt | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/src/Makevars.ucrt b/src/Makevars.ucrt
+index f61647a..3e9eebf 100644
+--- a/src/Makevars.ucrt
++++ b/src/Makevars.ucrt
+@@ -1,11 +1,2 @@
+-ifeq (,$(shell pkg-config --version 2>/dev/null))
+-   LIBSHARPYUV = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libsharpyuv.a),-lsharpyuv),)
+-   PKG_LIBS = -ltiff -ljpeg -lz -lzstd -lwebp $(LIBSHARPYUV) -llzma
+-else
+-   PKG_LIBS = $(shell pkg-config --libs libtiff-4)
+-endif
+-
+-all: clean 
+-
+-clean:
+-	rm -f $(SHLIB) $(OBJECTS)
++PKG_LIBS = -L$(LIBRARY_LIB) -ltiff
++PKG_CPPFLAGS = -I$(LIBRARY_INC)

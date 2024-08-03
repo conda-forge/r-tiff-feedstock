@@ -38,7 +38,7 @@ requirements:
     - {{ posix }}zip               # [win]
   host:
     - r-base
-    - libtiff                      # [not win]
+    - libtiff
   run:
     - r-base
 
